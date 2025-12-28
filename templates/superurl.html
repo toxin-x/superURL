@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SuperURL</title>
+
+  <link href="./style.css" rel="stylesheet" type="text/css" media="all"> <!-- css -->
+  <!-- icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"></head>
+<!-- Cloudflare Web Analytics --><script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "e4603bc7346c4483bd13c61797862afb"}'></script><!-- End Cloudflare Web Analytics -->
+  
+<body>
+  <header>
+    <h1 id="title">SuperURL</h1>
+
+    <div id="nav">
+        <div id="shortcut"><a href="{{iosLink}}">Get the iOS shortcut!</a></div> &#8226; 
+        <a href="https://github.com/toxin-x/SuperURL">Source Code</a> &#8226;
+        <a href="https://github.com/toxin-x/SuperURL/issues">Issues and Requests</a>
+    </div>
+  </header>
+
+  <button onclick="toggleThemer(this)" value="false" id="change-theme"><i class="fa-solid fa-palette"></i></button>
+
+  <div hidden id="themer">
+    <h4 style="margin: 0; padding: 0">Change Theme</h4>
+    <span class="form-group">
+      <input onclick="toggleLight()" class="theme-input" type="checkbox" id="light-dark" name="themer" value="0" />
+      <label for="light-dark" id ="cur-theme"></label>
+
+    </span>
+    <span class="form-group">
+      <button hidden onclick = "clearColor()" id="clear-color"><i class="fa-solid fa-x"></i></button>
+      <input class="theme-input" id="color-pick" type="color">
+      <label for="color-pick" id ="cur-theme">Accents</label>
+    </span>
+
+  </div>
+
+  <div id="content">
+    <form id="form">
+
+      <!-- URL INPUT -->
+      <input type="text" placeholder="Enter URL here" id="url" name="url" onkeydown="if(event.key === 'Enter' ){if(document.getElementById('submit').disabled == false) {sendFormPostRequest()} return false;}"/>
+
+      <h4>General Settings</h4>
+      <span id="settings-url" class="section">
+        <span class="form-group">
+          <input type="checkbox" id="clean" name="clean" value="1" checked />
+          <label for="clean">Remove trackers</label>
+        </span>
+        <span class="form-group">
+          <input type="checkbox" id="fix" name="fix" value="1" checked />
+          <label for="fix">Fix embeds</label>
+        </span>
+        <span class="form-group">
+          <input type="checkbox" id="archive" name="archive" value="1" checked />
+          <label for="archive">Archive to the Wayback Machine</label> <!--maybe add an ⓘ that links to info -->
+        </span>
+      </span>
+<!--
+      <h4 onclick="expand(document.getElementById('settings-twitter-expand'))"><span class="section-head"><i class="fa-brands fa-twitter"></i> Twitter Embed Settings</span><span id="settings-twitter-expand" class="expand-btn" for="settings-twitter"><i class="fa fa-solid fa-caret-down"></i></span></h3>
+      
+        <span id="settings-twitter" class="seciton" hidden>
+        <span class="form-group">
+          <input type="radio" id="twitter_format_0" name="twitter_format" value="0" checked />
+          <label for="twitter_format_0">Default</label>
+        </span>
+        <span class="form-group">
+          <input type="radio" id="twitter_format_1" name="twitter_format" value="1" />
+          <label for="twitter_format_1">Text only</label>
+        </span>
+        <span class="form-group">
+          <input type="radio" id="twitter_format_2" name="twitter_format" value="2" />
+          <label for="twitter_format_2">User & media only</label>
+        </span>
+        <span class="form-group">
+          <input type="radio" id="twitter_format_3" name="twitter_format" value="3" />
+          <label for="twitter_format_3">Media only</label>
+        </span>
+      </span>
+
+      <h4 onclick="expand(document.getElementById('settings-insta-expand'))"><span class="section-head"><i class="fa fa-brands fa-instagram"></i> Instagram embed settings</span> <span id="settings-insta-expand" class="expand-btn" for="settings-insta"><i class="fa fa-solid fa-caret-down"></i></span></h4>
+      <span id="settings-insta" class="section" hidden>
+        <span class="form-group">
+          <input type="radio" id="instagram_format_0" name="instagram_format" value="0" checked />
+          <label for="instagram_format_0">Default</label>
+        </span>
+        <span class="form-group">
+          <input type="radio" id="instagram_format_1" name="instagram_format" value="1" />
+          <label for="instagram_format_1">User & media only</label>
+        </span>
+        <span class="form-group">
+          <input type="radio" id="instagram_format_2" name="instagram_format" value="2" />
+          <label for="instagram_format_2">Media only</label>
+        </span>
+      </span>
+  -->
+<!--
+        <h4 onclick="expand(document.getElementById('settings-custom-sites-expand'))"><span class="section-head">Custom Site fixes</span> <span id="settings-custom-sites-expand" class="expand-btn" for="settings-custom-sites"><i class="fa fa-solid fa-caret-down"></i></span></h4>
+        <span id="settings-custom-sites" class="section" hidden>
+          <input type= "text" id="custom-1-key" placeholder="Enter original URL here"><input type= "text" id="custom-1-value" placeholder="Enter replacement URL here"> 
+        </span>
+-->
+
+        
+      <button disabled id="submit" type="button" onclick="sendFormPostRequest()">
+        Get new URL
+      </button>
+    </form>
+
+
+
+
+
+
+    <!--output gets set in sendFormPostRequest(), shortcut gets set by getShortcut() -->
+    <div id="output-container"> 
+      <div id="output">
+        <span id="placeholder">Enter a URL above</span>
+      </div>
+    </div>
+    <button id="copy" onclick="copy()" disabled>
+      <i class="fa fa-solid fa-copy"></i>
+    </button>
+    <div id="extra-output"><div>
+    <h3 onclick="expand(document.getElementById('info-expand'))" id="credits-heading" class="section-head">Credits<button id="info-expand" class="expand-btn" for="info"><i class="fa fa-solid fa-caret-down"></i></button></h3>
+    <span id="info" hidden>
+      <span id="embedinfo">
+        <h4 style=>Embed Providers</h4>
+        <div><i class="fa-brands fa-twitter"></i> Twitter/X embeds are fixed by <a href="https://FxTwitter.com">FxTwitter</a></div>
+        <div><i class="fa fa-brands fa-instagram"></i> Instagram embeds are fixed by <a href="https://uuinstagram.com/">InstaFix</a></div>
+        <div><i class="fa fa-brands fa-threads"></i> Threads embeds are fixed by <a href="https://fixthreads.net/">fixthreads</a></div>
+        <div><i class="fa fa-brands fa-facebook"></i> Facebook embeds are fixed by <a href="https://facebed.com/">Facebed</a></div>
+        <div><i class="fa fa-brands fa-reddit-alien"></i> Reddit embeds are fixed by <a href="https://rxddit.com/">Rxddit</a></div>
+        <div><i class="fa fa-brands fa-tiktok"></i> Tiktok embeds are fixed by <a href="https://tnktok.com">fxTikTok</a></div>
+        <div><i class="fa fa-brands fa-bluesky"></i> Bluesky embeds are fixed by <a href="https://bskx.app">VixBluesky</a></div>
+        <div><i class="fa fa-brands fa-tumblr"></i> Tumblr embeds are fixed by <a href="https://tpmblr.com">VixBluesky</a></div>      
+      </span>
+      <span id="cleaninginfo">
+
+        <h4>Cleaning Info</h4>
+        <div>URLs are cleaned using <a href="https://github.com/ClearURLs/Rules">ClearURLs's rules</a> and <a
+            href="https://github.com/walterl/uroute">Uroute's parser</a></div>
+      </span>
+    </span>
+  </div>
+
+  <script src="./framework.js"></script>
+  <script src="./script.js"></script>
+
+</body>
+
+</html>
